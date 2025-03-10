@@ -93,12 +93,11 @@ const Footer = () => {
 
   return (
     <footer
-      className="flex flex-col items-center py-3 justify-start"
-      style={{ backgroundColor: "#051e50" }}
+      className="flex flex-col items-center py-3 justify-start   xl:justify-center"
     >
       <div className="w-full px-8">
-        <div className="w-full flex justify-center">
-          <div className="flex flex-wrap xl:flex-nowrap gap-10 xl:gap-19 xl:justify-between pt-10 pb-10 xl:pb-15">
+        <div className="w-full flex-col flex xl:items-center">
+          <div className="flex  flex-wrap xl:flex-nowrap gap-10 xl:gap-19 xl:justify-between pt-10 pb-10 xl:pb-15">
             <div className="max-w-[330px] w-full">
               <h2 className="mb-7.5 text-custom-1 font-medium text-dark">
                 Help & Support
@@ -226,10 +225,10 @@ const Footer = () => {
               </li>
             </FooterSection>
           </div>
-        </div>
-        <p className="text-[#ffd700] font-medium">
+        <p className="text-[#ffd700] font-medium ">
           &copy; {year}. All rights reserved by PimViz.
         </p>
+        </div>
       </div>
     </footer>
   );
