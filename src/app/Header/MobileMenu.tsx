@@ -14,8 +14,8 @@ interface DropdownItem {
 
 const MobileMenu = ({ menuItems }: { menuItems: MenuItemType[] }) => {
   return (
-    <div className="sm:hidden" id="mobile-menu">
-      <div className="space-y-1 px-2 pt-2 pb-3">
+<div className="xl:hidden" id="mobile-menu">
+<div className="space-y-1 px-2 pt-2 pb-3">
         {menuItems.map((item) => (
           <MobileDropdown
             key={item.label}

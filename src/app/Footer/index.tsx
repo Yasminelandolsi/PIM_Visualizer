@@ -1,5 +1,5 @@
-import Link from 'next/link';
-import { JSX, ReactNode } from 'react';
+import Link from "next/link";
+import { JSX, ReactNode } from "react";
 
 const Footer = () => {
   const year = new Date().getFullYear();
@@ -85,126 +85,151 @@ const Footer = () => {
   );
 
   const FooterSection = ({ title, children }: FooterSectionProps) => (
-    <div className="w-full sm:w-auto">
+    <div className="w-full xl:w-auto">
       <h2 className="mb-7.5 text-custom-1 font-medium text-dark">{title}</h2>
       <ul className="flex flex-col gap-3">{children}</ul>
     </div>
   );
 
   return (
-    <footer className="overflow-hidden" style={{ backgroundColor: '#051e50' }}>
-      <div className="max-w-[1170px] mx-auto px-4 sm:px-8 xl:px-0">
-        <div className="flex flex-wrap xl:flex-nowrap gap-10 xl:gap-19 xl:justify-between pt-17.5 xl:pt-22.5 pb-10 xl:pb-15">
-          <div className="max-w-[330px] w-full">
-            <h2 className="mb-7.5 text-custom-1 font-medium text-dark">
-              Help & Support
-            </h2>
-            <ul className="flex flex-col gap-3">
-              <li className="flex gap-4.5">
-                <span className="flex-shrink-0">
-                  <IconPin />
-                </span>
-                Accurist House 44 Baker St London W1U 7AL UK
-              </li>
-              <li>
-                <Link
-                  href="tel:+442070097000"
-                  className="flex items-center gap-4.5"
+    <footer
+      className="flex flex-col items-center py-3 justify-start"
+      style={{ backgroundColor: "#051e50" }}
+    >
+      <div className="w-full px-8">
+        <div className="w-full flex justify-center">
+          <div className="flex flex-wrap xl:flex-nowrap gap-10 xl:gap-19 xl:justify-between pt-10 pb-10 xl:pb-15">
+            <div className="max-w-[330px] w-full">
+              <h2 className="mb-7.5 text-custom-1 font-medium text-dark">
+                Help & Support
+              </h2>
+              <ul className="flex flex-col gap-3">
+                <li className="flex gap-4.5">
+                  <span className="flex-shrink-0">
+                    <IconPin />
+                  </span>
+                  Accurist House 44 Baker St London W1U 7AL UK
+                </li>
+                <li>
+                  <Link
+                    href="tel:+442070097000"
+                    className="flex items-center gap-4.5"
+                  >
+                    <IconPhone />
+                    +44 (0)20 7009 7000
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="mailto:info@rubix-group.com"
+                    className="flex items-center gap-4.5"
+                  >
+                    <IconMail />
+                    info@rubix-group.com
+                  </Link>
+                </li>
+              </ul>
+              <div className="flex items-center gap-4 mt-7.5">
+                <SocialLink
+                  href="https://www.linkedin.com/company/rubixgroup/"
+                  ariaLabel="Linkedin Social Link"
                 >
-                  <IconPhone />
-                  +44 (0)20 7009 7000
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="mailto:info@rubix-group.com"
-                  className="flex items-center gap-4.5"
-                >
-                  <IconMail />
-                  info@rubix-group.com
-                </Link>
-              </li>
-            </ul>
-            <div className="flex items-center gap-4 mt-7.5">
-              <SocialLink
-                href="https://www.linkedin.com/company/rubixgroup/"
-                ariaLabel="Linkedin Social Link"
-              >
-                <svg
-                  className="fill-current"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M16.6535 1.6665C17.1222 1.6665 17.5129 1.83577 17.8254 2.17432C18.1639 2.48682 18.3332 2.87744 18.3332 3.34619V16.6535C18.3332 17.1222 18.1639 17.5259 17.8254 17.8644C17.5129 18.1769 17.1222 18.3332 16.6535 18.3332H3.34619C2.87744 18.3332 2.4738 18.1769 2.13525 17.8644C1.82275 17.5259 1.6665 17.1222 1.6665 16.6535V3.34619C1.6665 2.87744 1.82275 2.48682 2.13525 2.17432C2.4738 1.83577 2.87744 1.6665 3.34619 1.6665H16.6535ZM15.4295 15.4295V11.0155C15.4295 10.2603 15.1561 9.62223 14.6092 9.1014C14.0884 8.55452 13.4504 8.28109 12.6952 8.28109C12.3306 8.28109 11.966 8.38525 11.6014 8.59359C11.2368 8.80192 10.9634 9.06234 10.7811 9.37484V8.43734H8.43734V15.4295H10.7811V11.2889C10.7811 10.9764 10.8853 10.716 11.0936 10.5077C11.328 10.2733 11.6014 10.1561 11.9139 10.1561C12.2524 10.1561 12.5259 10.2733 12.7342 10.5077C12.9686 10.716 13.0858 10.9764 13.0858 11.2889V15.4295H15.4295ZM5.74202 7.14827C6.13265 7.14827 6.45817 7.01807 6.71859 6.75765C7.00505 6.47119 7.14827 6.13265 7.14827 5.74202C7.14827 5.3514 7.00505 5.02588 6.71859 4.76546C6.45817 4.479 6.13265 4.33577 5.74202 4.33577C5.3514 4.33577 5.01286 4.479 4.7264 4.76546C4.46598 5.02588 4.33577 5.3514 4.33577 5.74202C4.33577 6.13265 4.46598 6.47119 4.7264 6.75765C5.01286 7.01807 5.3514 7.14827 5.74202 7.14827ZM6.87484 15.4295V8.43734H4.57015V15.4295H6.87484Z" />
-                </svg>
-              </SocialLink>
+                  <svg
+                    className="fill-current"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M16.6535 1.6665C17.1222 1.6665 17.5129 1.83577 17.8254 2.17432C18.1639 2.48682 18.3332 2.87744 18.3332 3.34619V16.6535C18.3332 17.1222 18.1639 17.5259 17.8254 17.8644C17.5129 18.1769 17.1222 18.3332 16.6535 18.3332H3.34619C2.87744 18.3332 2.4738 18.1769 2.13525 17.8644C1.82275 17.5259 1.6665 17.1222 1.6665 16.6535V3.34619C1.6665 2.87744 1.82275 2.48682 2.13525 2.17432C2.4738 1.83577 2.87744 1.6665 3.34619 1.6665H16.6535ZM15.4295 15.4295V11.0155C15.4295 10.2603 15.1561 9.62223 14.6092 9.1014C14.0884 8.55452 13.4504 8.28109 12.6952 8.28109C12.3306 8.28109 11.966 8.38525 11.6014 8.59359C11.2368 8.80192 10.9634 9.06234 10.7811 9.37484V8.43734H8.43734V15.4295H10.7811V11.2889C10.7811 10.9764 10.8853 10.716 11.0936 10.5077C11.328 10.2733 11.6014 10.1561 11.9139 10.1561C12.2524 10.1561 12.5259 10.2733 12.7342 10.5077C12.9686 10.716 13.0858 10.9764 13.0858 11.2889V15.4295H15.4295ZM5.74202 7.14827C6.13265 7.14827 6.45817 7.01807 6.71859 6.75765C7.00505 6.47119 7.14827 6.13265 7.14827 5.74202C7.14827 5.3514 7.00505 5.02588 6.71859 4.76546C6.45817 4.479 6.13265 4.33577 5.74202 4.33577C5.3514 4.33577 5.01286 4.479 4.7264 4.76546C4.46598 5.02588 4.33577 5.3514 4.33577 5.74202C4.33577 6.13265 4.46598 6.47119 4.7264 6.75765C5.01286 7.01807 5.3514 7.14827 5.74202 7.14827ZM6.87484 15.4295V8.43734H4.57015V15.4295H6.87484Z" />
+                  </svg>
+                </SocialLink>
+              </div>
             </div>
+
+            <FooterSection title="Our customers">
+              <li>
+                <Link
+                  href="/our-customers"
+                  className="hover:text-blue duration-200"
+                >
+                  Our customers
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/challenges-we-solve"
+                  className="hover:text-blue duration-200"
+                >
+                  Challenges we solve
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/adding-value"
+                  className="hover:text-blue duration-200"
+                >
+                  Adding value
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/customer-case-studies"
+                  className="hover:text-blue duration-200"
+                >
+                  Customer case studies
+                </Link>
+              </li>
+            </FooterSection>
+
+            <FooterSection title="Who we are">
+              <li>
+                <Link
+                  href="/who-we-are"
+                  className="hover:text-blue duration-200"
+                >
+                  Who we are
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/group-overview"
+                  className="hover:text-blue duration-200"
+                >
+                  Group overview
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/our-values"
+                  className="hover:text-blue duration-200"
+                >
+                  Our values
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/our-markets"
+                  className="hover:text-blue duration-200"
+                >
+                  Our markets
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/our-financials"
+                  className="hover:text-blue duration-200"
+                >
+                  Our financial results
+                </Link>
+              </li>
+            </FooterSection>
           </div>
-
-          <FooterSection title="Our customers">
-            <li>
-              <Link href="/our-customers" className="hover:text-blue duration-200">
-                Our customers
-              </Link>
-            </li>
-            <li>
-              <Link href="/challenges-we-solve" className="hover:text-blue duration-200">
-                Challenges we solve
-              </Link>
-            </li>
-            <li>
-              <Link href="/adding-value" className="hover:text-blue duration-200">
-                Adding value
-              </Link>
-            </li>
-            <li>
-              <Link href="/customer-case-studies" className="hover:text-blue duration-200">
-                Customer case studies
-              </Link>
-            </li>
-          </FooterSection>
-
-          <FooterSection title="Who we are">
-            <li>
-              <Link href="/who-we-are" className="hover:text-blue duration-200">
-                Who we are
-              </Link>
-            </li>
-            <li>
-              <Link href="/group-overview" className="hover:text-blue duration-200">
-                Group overview
-              </Link>
-            </li>
-            <li>
-              <Link href="/our-values" className="hover:text-blue duration-200">
-                Our values
-              </Link>
-            </li>
-            <li>
-              <Link href="/our-markets" className="hover:text-blue duration-200">
-                Our markets
-              </Link>
-            </li>
-            <li>
-              <Link href="/our-financials" className="hover:text-blue duration-200">
-                Our financial results
-              </Link>
-            </li>
-          </FooterSection>
         </div>
-      </div>
-
-      <div className="py-5 xl:py-7.5 bg-gray-1">
-        <div className="max-w-[1170px] mx-auto px-4 sm:px-8 xl:px-0">
-          <div className="flex gap-5 flex-wrap items-center justify-between">
-            <p className="text-[#ffd700] font-medium">
-              &copy; {year}. All rights reserved by PimViz.
-            </p>
-          </div>
-        </div>
+        <p className="text-[#ffd700] font-medium">
+          &copy; {year}. All rights reserved by PimViz.
+        </p>
       </div>
     </footer>
   );
