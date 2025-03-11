@@ -93,7 +93,7 @@ const Footer = () => {
 
   return (
     <footer
-      className="flex flex-col items-center py-3 justify-start   xl:justify-center"
+      className="flex flex-col items-center py-3 justify-start   xl:justify-center   text-white "
     >
       <div className="w-full px-8">
         <div className="w-full flex-col flex xl:items-center">

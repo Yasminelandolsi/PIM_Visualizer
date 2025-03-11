@@ -1,4 +1,10 @@
+:where(.mako-search) {
+@import "../../node_modules/@mako/cms/dist/style.css";
+@import "../../node_modules/@mako/core/dist/style.css";
+}
 @import "tailwindcss";
+
+
 
 :root {
   --background: #ffffff;

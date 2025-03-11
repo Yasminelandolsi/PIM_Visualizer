@@ -10,24 +10,25 @@ interface DropdownProps {
   items: DropdownItem[];
   linkClass: string;
 }
+
 const Dropdown = ({ label, items, linkClass }: DropdownProps) => {
   return (
-    <div className="relative inline-block text-left group">
-      {/* Dropdown Trigger (on hover) */}
+    <div className="relative inline-block group">
+      {/* Dropdown Trigger with underline animation */}
       <Link
         href="#"
-        className={`${linkClass} flex items-center justify-center`}
+        className={`${linkClass} flex items-center justify-center px-4 py-2 text-sm font-semibold text-[#4a4a4a] relative after:content-[''] after:absolute after:bottom-[-2px] after:left-0 after:w-0 after:h-0.5 after:bg-[#0c1424] after:transition-[width] after:duration-300 after:ease-in-out hover:after:w-full`}
       >
         {label}
       </Link>
 
-      {/* Dropdown Menu */}
-      <div className="absolute left-0 z-10 mt-2 w-56 origin-top-left divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 hidden group-hover:block transition-all duration-200">
+      {/* Dropdown Menu with enhanced styling */}
+      <div className="absolute left-0 z-[1000] mt-1 w-[200px] origin-top-left rounded-md bg-white shadow-[0_4px_8px_rgba(12,20,36,0.15)] hidden group-hover:block transition-all duration-200 border-2 border-[#3b73bf] border-t-[3px] py-2">
         {items.map((item, index) => (
-          <div key={index} className="py-1">
+          <div key={index}>
             <a
               href={item.href}
-              className="text-center block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              className="block px-4 py-2 text-sm text-[#4a4a4a] hover:bg-[#f5f5f5] hover:text-[#0c1424] transition-all duration-200 ease-in-out border-l-0 hover:border-l-[6px] hover:border-l-[#3b73bf]"
             >
               {item.label}
             </a>
