@@ -5,8 +5,8 @@ import AvailableTranslations from "../components/Product/AvailableTranslations";
 
 const ProductPage = () => {
   const product = {
-    qualityVerified: true,
-    enrichmentLevel: "EXC",
+    qualityVerified: false,
+    enrichmentLevel: "LIS",
     translations: ["fr", "en", "nl", "de", "es"],
   };
 
