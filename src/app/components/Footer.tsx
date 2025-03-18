@@ -93,7 +93,7 @@ const Footer = () => {
 
   return (
     <footer
-      className="flex flex-col items-center py-3 justify-start   xl:justify-center   text-white "
+    className="flex flex-col items-center py-3 justify-start xl:justify-center text-white bg-[#051e50]"
     >
       <div className="w-full px-8">
         <div className="w-full flex-col flex xl:items-center">

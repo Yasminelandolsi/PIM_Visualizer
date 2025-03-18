@@ -94,8 +94,9 @@ const Header = () => {
   ];
 
   return (
-    <nav>
-      <div className="mx-auto max-w-7xl px-2 sm:px-4 lg:px-8 p-5">
+    <nav className="bg-[#051e50]">
+
+      <div className="mx-auto max-w-7xl px-2 sm:px-4 lg:px-8 p-5  ">
         <div className="relative flex h-16 items-center justify-between">
           {/* Mobile Menu Button */}
           <div className="absolute inset-y-0 left-0 flex items-center xl:hidden">
