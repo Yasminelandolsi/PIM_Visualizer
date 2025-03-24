@@ -4,7 +4,7 @@ import { JSX, ReactNode } from "react";
 const Footer = () => {
   const year = new Date().getFullYear();
 
-  // SVG Icons with TypeScript return type
+
   const IconPin = (): JSX.Element => (
     <svg
       width="24"

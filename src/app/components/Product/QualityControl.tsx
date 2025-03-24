@@ -11,12 +11,12 @@ const QualityControl: React.FC<QualityControlProps> = ({ verified }) => {
       {verified ? (
         <>
           <CheckCircleIcon className="text-green-500" size={20} />
-          <span className="font-medium">Vérifié</span>
+          <span className="font-medium">checked</span>
         </>
       ) : (
         <>
           <XCircleIcon className="text-gray-400" size={20} />
-          <span className="font-medium text-gray-500">Non vérifié</span>
+          <span className="font-medium text-gray-500">Not yet checked</span>
         </>
       )}
     </div>

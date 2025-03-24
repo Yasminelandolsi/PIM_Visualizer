@@ -1,22 +1,15 @@
-:where(.mako-search) {
+:where(.mako) {
 @import "../../node_modules/@mako/cms/dist/style.css";
 @import "../../node_modules/@mako/core/dist/style.css";
 }
+
 @import "tailwindcss";
 
+/* Reset Mako styles for non-Mako elements */
 
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+
 
 @media (prefers-color-scheme: dark) {
   :root {

@@ -25,7 +25,7 @@ const SearchBar = () => {
         </h1>
         <div className="flex items-center justify-center gap-2.5 w-full max-w-[80%] px-4">
           <SearchField
-            className="w-full min-w-[300px] max-w-[1200px] bg-white rounded mako-search md:w-[90%] lg:w-[95%] xl:w-full"
+            className="w-full min-w-[300px] max-w-[1200px] bg-white rounded mako md:w-[90%] lg:w-[95%] xl:w-full"
             value={value}
             onChange={handleChange}
             onSearch={handleSearch}
