@@ -1,6 +1,6 @@
 "use client";
 
-import Dropdown from "./Dropdown";
+import  Dropdown  from "./Dropdown";
 
 interface MenuItem {
   label: string;

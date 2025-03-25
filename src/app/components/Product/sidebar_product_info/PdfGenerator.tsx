@@ -52,7 +52,6 @@ const PdfGenerator: React.FC<PdfGeneratorProps> = ({
         throw new Error(`Element with selector '${productInfoSelector}' not found in DOM`);
       }
       
-      // Create a temporary wrapper div for our clone
       const tempContainer = document.createElement('div');
       tempContainer.style.position = 'absolute';
       tempContainer.style.left = '-9999px';
@@ -60,26 +59,43 @@ const PdfGenerator: React.FC<PdfGeneratorProps> = ({
       tempContainer.style.width = '800px'; // Fixed width for consistent rendering
       document.body.appendChild(tempContainer);
       
-      // Clone the element to modify it for better PDF generation
       const clonedElement = element.cloneNode(true) as HTMLElement;
       tempContainer.appendChild(clonedElement);
       
-      // Apply a stylesheet to neutralize problematic styles
+      // UPDATED: Apply a stylesheet to remove borders
       const cleanStylesheet = document.createElement('style');
       cleanStylesheet.textContent = `
         .pdf-clone * {
           font-family: Arial, sans-serif !important;
           color: #000 !important;
           background: #fff !important;
-          border-color: #ccc !important;
           background-image: none !important;
           box-shadow: none !important;
           text-shadow: none !important;
+          /* Remove borders completely */
+          border: none !important;
+          border-top: none !important;
+          border-right: none !important;
+          border-bottom: none !important;
+          border-left: none !important;
         }
+        
+        /* Handle tables but without borders */
         .pdf-clone th, .pdf-clone td {
           padding: 8px;
-          border-color: #ddd;
+          border: none !important;
         }
+        
+        /* Remove specific border classes from Tailwind/utility frameworks */
+        .pdf-clone .border,
+        .pdf-clone .border-t,
+        .pdf-clone .border-r,
+        .pdf-clone .border-b,
+        .pdf-clone .border-l,
+        .pdf-clone [class*="border-"] {
+          border: none !important;
+        }
+        
         .pdf-clone button,
         .pdf-clone a[role="button"] {
           display: none !important;
@@ -87,42 +103,38 @@ const PdfGenerator: React.FC<PdfGeneratorProps> = ({
       `;
       document.head.appendChild(cleanStylesheet);
       
-      // Give the clone a specific ID/class for our stylesheet
       clonedElement.classList.add('pdf-clone');
       
-      // Process images in cloned element
       const images = clonedElement.querySelectorAll('img');
       images.forEach(img => {
-        // Make sure image src is absolute for PDF
         if (img.src.startsWith('/')) {
           img.src = window.location.origin + img.src;
         }
-        // Add crossorigin attribute for CORS support
         img.setAttribute('crossorigin', 'anonymous');
       });
       
-      // Handle SVGs with potential OKLCH colors
       const svgs = clonedElement.querySelectorAll('svg');
       svgs.forEach(svg => {
         const paths = svg.querySelectorAll('path, rect, circle, ellipse, line, polyline, polygon');
         paths.forEach(path => {
           if (path instanceof SVGElement) {
-            // Remove any fill or stroke that might use OKLCH
             path.setAttribute('fill', 'currentColor');
             path.setAttribute('stroke', 'currentColor');
           }
         });
       });
       
-      // Recursively process styles to replace OKLCH colors
       const sanitizeStyles = (element: HTMLElement) => {
-        // Set safe styles for this element
         element.style.color = '#000000';
         element.style.backgroundColor = '#FFFFFF';
-        element.style.borderColor = '#CCCCCC';
         element.style.backgroundImage = 'none';
         
-        // Process children
+        element.style.border = 'none';
+        element.style.borderTop = 'none';
+        element.style.borderBottom = 'none';
+        element.style.borderLeft = 'none';
+        element.style.borderRight = 'none';
+        
         Array.from(element.children).forEach(child => {
           if (child instanceof HTMLElement) {
             sanitizeStyles(child);
@@ -130,52 +142,69 @@ const PdfGenerator: React.FC<PdfGeneratorProps> = ({
         });
       };
       
-      // Apply safe styles to the cloned element
       sanitizeStyles(clonedElement);
       
-      // Force layout recalculation
+      const borderRelatedClasses = ['border', 'border-t', 'border-r', 'border-b', 'border-l'];
+      const allElements = clonedElement.querySelectorAll('*');
+      allElements.forEach(el => {
+        if (el instanceof HTMLElement) {
+          borderRelatedClasses.forEach(className => {
+            el.classList.remove(className);
+          });
+          
+          Array.from(el.classList).forEach(cls => {
+            if (cls.startsWith('border-')) {
+              el.classList.remove(cls);
+            }
+          });
+        }
+      });
+      
       clonedElement.getBoundingClientRect();
       
-      // Capture the sanitized element
       const canvas = await html2canvas(clonedElement, {
-        scale: 2, // Higher resolution
+        scale: 2,
         useCORS: true,
         allowTaint: true,
         backgroundColor: '#FFFFFF',
         logging: false,
         onclone: (doc) => {
-          // Final passes of style removal in cloned document
           const clone = doc.querySelector('.pdf-clone');
           if (clone && clone instanceof HTMLElement) {
             sanitizeStyles(clone);
+            
+            const clonedElements = clone.querySelectorAll('*');
+            clonedElements.forEach(el => {
+              if (el instanceof HTMLElement) {
+                el.style.border = 'none';
+                el.style.borderTop = 'none';
+                el.style.borderBottom = 'none';
+                el.style.borderLeft = 'none';
+                el.style.borderRight = 'none';
+              }
+            });
           }
         }
       });
       
-      // Create PDF from canvas
       const imgData = canvas.toDataURL('image/png');
       const pdf = new jsPDF({
         orientation: 'portrait',
         unit: 'mm',
       });
       
-      // Calculate dimensions
-      const imgWidth = 210; // A4 width in mm
+      const imgWidth = 210; 
       const imgHeight = canvas.height * imgWidth / canvas.width;
       
-      // Add the image to the PDF
       pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
       
-      // Save the PDF
       pdf.save(filename);
       
-      // Clean up
       document.body.removeChild(tempContainer);
       document.head.removeChild(cleanStylesheet);
       
       console.log("PDF generated successfully");
       
-      // Call the onGenerate callback if provided
       if (onGenerate) {
         onGenerate();
       }
@@ -183,7 +212,7 @@ const PdfGenerator: React.FC<PdfGeneratorProps> = ({
       console.error("Error in PDF generation:", error);
       alert("Failed to generate PDF. Please try again later.");
     } finally {
-      // Remove loading indicator
+
       if (loadingRef.current) {
         document.body.removeChild(loadingRef.current);
         loadingRef.current = null;

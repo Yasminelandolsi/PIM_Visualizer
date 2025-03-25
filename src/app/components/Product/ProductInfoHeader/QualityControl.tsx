@@ -1,13 +1,12 @@
 import { CheckCircleIcon, XCircleIcon } from "lucide-react";
 
-
 interface QualityControlProps {
   verified: boolean;
 }
 
 const QualityControl: React.FC<QualityControlProps> = ({ verified }) => {
   return (
-    <div className="flex items-center space-x-2">
+    <div className="w-full flex items-center justify-center space-x-2">
       {verified ? (
         <>
           <CheckCircleIcon className="text-green-500" size={20} />

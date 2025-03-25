@@ -10,7 +10,6 @@ interface ProductDetailsProps {
   isMobile: boolean;
 }
 
-
 const ProductDetails = memo(({ 
   name, 
   description, 
@@ -36,7 +35,8 @@ const ProductDetails = memo(({
       <div className="grid grid-cols-1 gap-3 text-sm">
         {details.map(({ label, value }) => (
           <p key={label}>
-            <span className="font-medium">{label}:</span> {value}
+            <span className="font-medium text-gray-600">{label}:</span>{' '}
+            <span className="font-bold">{value}</span>
           </p>
         ))}
       </div>

@@ -1,7 +1,7 @@
 import React from 'react';
-import PdfGenerator from './PdfGenerator';
-import AvailableSuppliers from './product_info/AvailableSuppliers';
-import ProductRange from './product_info/ProductRange';
+import PdfGenerator from './sidebar_product_info/PdfGenerator';
+import AvailableSuppliers from './sidebar_product_info/AvailableSuppliers';
+import ProductRange from './sidebar_product_info/ProductRange';
 interface SidebarInfoProps {
   children?: React.ReactNode;
   productAvailability?: { supplier: string; erpReference?: string; countryCode?: string }[];

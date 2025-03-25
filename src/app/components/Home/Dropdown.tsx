@@ -1,4 +1,5 @@
 import Link from "next/link";
+import React from 'react';
 
 interface DropdownItem {
   label: string;
@@ -11,13 +12,13 @@ interface DropdownProps {
   linkClass: string;
 }
 
-const Dropdown = ({ label, items, linkClass }: DropdownProps) => {
+const Dropdown: React.FC<DropdownProps> = ({ label, items, linkClass }) => {
   return (
     <div className="relative inline-block group">
       {/* Dropdown Trigger with underline animation */}
       <Link
         href="#"
-        className={`${linkClass} flex items-center justify-center px-4 py-2 text-sm font-semibold text-[#4a4a4a] relative after:content-[''] after:absolute after:bottom-[-2px] after:left-0 after:w-0 after:h-0.5 after:bg-[#0c1424] after:transition-[width] after:duration-300 after:ease-in-out hover:after:w-full`}
+        className={`${linkClass} flex items-center justify-center px-4 py-2 text-sm font-semibold relative after:content-[''] after:absolute after:bottom-[-2px] after:left-0 after:w-0 after:h-0.5 after:bg-[#0c1424] after:transition-[width] after:duration-300 after:ease-in-out hover:after:w-full`}
       >
         {label}
       </Link>

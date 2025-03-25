@@ -10,7 +10,6 @@ interface BreadcrumbNavProps {
 }
 
 const BreadcrumbNav: React.FC<BreadcrumbNavProps> = ({ items }) => {
-  // Default items if none provided
   const defaultItems = [
     {
       href: '/',
@@ -26,13 +25,15 @@ const BreadcrumbNav: React.FC<BreadcrumbNavProps> = ({ items }) => {
     }
   ];
 
-  // Use provided items or defaults
   const breadcrumbItems = items || defaultItems;
 
   return (
     <div className="px-2">
       <div className="max-w-6xl mx-auto py-4">
-        <MakoBreadcrumb items={breadcrumbItems} />
+       
+        <div style={{ color: "#041e50" }}>
+          <MakoBreadcrumb items={breadcrumbItems} />
+        </div>
       </div>
     </div>
   );

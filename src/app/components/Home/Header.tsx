@@ -1,10 +1,10 @@
-// Header.tsx
 "use client";
 
 import { useState } from "react";
 import Image from "next/image";
 import DesktopMenu from "./DesktopMenu";
 import MobileMenu from "./MobileMenu";
+import Link from "next/link";
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -143,6 +143,7 @@ const Header = () => {
           {/* Logo & Navigation Links */}
           <div className="flex flex-1 items-center justify-center sm:items-stretch xl:justify-start">
             <div className="flex shrink-0 items-center ml-2 mr-1">
+            <Link href="/" aria-label="Go to home page">
               <Image
                 src="/rubix.avif"
                 width={70}
@@ -150,6 +151,7 @@ const Header = () => {
                 alt="Logo"
                 className="h-8 w-auto"
               />
+               </Link>
             </div>
             <DesktopMenu menuItems={menuItems} />
 

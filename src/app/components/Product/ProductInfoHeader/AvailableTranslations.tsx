@@ -20,7 +20,13 @@ const ALL_SUPPORTED_LANGUAGES: Language[] = [
   { code: "nl", name: "Nederlands", countryCode: "NL" },
   { code: "de", name: "Deutsch", countryCode: "DE" },
   { code: "es", name: "Español", countryCode: "ES" },
-  { code: "it", name: "Italiano", countryCode: "IT" }
+  { code: "it", name: "Italiano", countryCode: "IT" },
+  { code: "is", name: "Íslenska", countryCode: "IS" },     
+  { code: "no", name: "Norsk", countryCode: "NO" },        
+  { code: "fi", name: "Suomi", countryCode: "FI" },       
+  { code: "da", name: "Dansk", countryCode: "DK" },        
+  { code: "pl", name: "Polski", countryCode: "PL" },      
+  { code: "sv", name: "Svenska", countryCode: "SE" }       
 ];
 
 const AvailableTranslations: React.FC<AvailableTranslationsProps> = ({ 
@@ -43,15 +49,13 @@ const AvailableTranslations: React.FC<AvailableTranslationsProps> = ({
         setSupportedLanguages(ALL_SUPPORTED_LANGUAGES);
       } catch (error) {
         console.error("Failed to fetch supported languages:", error);
-        // Fallback to hardcoded list on error
         setSupportedLanguages(ALL_SUPPORTED_LANGUAGES);
       }
     };
     
     fetchSupportedLanguages();
-  }, []); // Empty dependency array means this runs once on mount
+  }, []); 
 
-  // Filter languages if onlyShowAvailable is true
   const languagesToDisplay = onlyShowAvailable 
     ? supportedLanguages.filter(lang => 
         Array.isArray(availableLanguages) && availableLanguages.includes(lang.code)
@@ -59,7 +63,7 @@ const AvailableTranslations: React.FC<AvailableTranslationsProps> = ({
     : supportedLanguages;
 
   return (
-    <div className="flex flex-wrap gap-4">
+    <div className="flex flex-wrap gap-3">
       {languagesToDisplay.map((language) => {
         const isAvailable = Array.isArray(availableLanguages) && availableLanguages.includes(language.code);
         
@@ -70,21 +74,21 @@ const AvailableTranslations: React.FC<AvailableTranslationsProps> = ({
                 countryCode={language.countryCode}
                 svg
                 style={{
-                  width: '2rem',
-                  height: '1.5rem',
-                  borderRadius: '4px',
+                  width: '1.5rem',           
+                  height: '1.125rem',        
+                  borderRadius: '3px',      
                   boxShadow: '0 1px 2px rgba(0,0,0,0.1)',
-                  opacity: isAvailable ? 1 : 0.7 // Slightly dim unavailable flags
+                  opacity: isAvailable ? 1 : 0.7 
                 }}
                 title={language.name}
               />
-              <span className="text-[10px] mt-1 text-center block">{language.code.toUpperCase()}</span>
+              <span className="text-[8px] mt-1 text-center block">{language.code.toUpperCase()}</span>
             </div>
             
             {isAvailable ? (
-              <CheckCircleIcon className="text-green-500" size={16} />
+              <CheckCircleIcon className="text-green-500" size={14} />
             ) : (
-              <XCircleIcon className="text-gray-400" size={16} />
+              <XCircleIcon className="text-gray-400" size={14} />
             )}
           </div>
         );

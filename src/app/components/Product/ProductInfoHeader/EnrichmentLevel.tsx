@@ -10,8 +10,8 @@ const EnrichmentLevel: React.FC<EnrichmentLevelProps> = ({ level }) => {
   const levelIndex = levels.indexOf(level);
 
   return (
-    <div className="flex flex-col space-y-1">
-      <div className="flex space-x-1">
+    <div className="w-full flex flex-col items-center space-y-1">
+      <div className="flex justify-center space-x-1">
         {levels.map((lvl, index) => (
           <div
             key={lvl}
@@ -19,7 +19,7 @@ const EnrichmentLevel: React.FC<EnrichmentLevelProps> = ({ level }) => {
           />
         ))}
       </div>
-      <div className="flex space-x-1">
+      <div className="flex justify-center space-x-1">
         {levels.map((lvl) => (
           <div key={lvl} className="w-12 text-xs text-center text-gray-600">
             {lvl}

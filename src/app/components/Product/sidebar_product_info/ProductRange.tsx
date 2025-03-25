@@ -21,7 +21,8 @@ const ProductRange: React.FC<ProductRangeProps> = ({
       <Link href={`/product-range/${rangeId}`} passHref>
         <button 
           className="w-full bg-gray-50 border border-gray-300 rounded-lg p-3 text-left shadow-sm hover:bg-gray-100 transition-colors cursor-pointer"
-          onClick={(e) => {
+          onClick={() => {
+            // Removed unused 'e' parameter
             console.log(`Navigating to range: ${rangeId}`);
           }}
         >

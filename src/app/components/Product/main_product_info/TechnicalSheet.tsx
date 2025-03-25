@@ -19,7 +19,7 @@ const TechnicalSheet: React.FC = () => {
 
   return (
     <div className="mt-6">
-      <h3 className="text-lg font-semibold text-700" style={{ color: '#041e50' }}>Documentation</h3>
+      <h3 className="text-2xl font-bold mb-4" style={{ color: '#041e50' }}>Documentation</h3>
       {pdfUrl ? (
         <a
           href={pdfUrl}

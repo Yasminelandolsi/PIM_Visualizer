@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import ProductImageCarousel from './product_info/ProductImageCarousel ';
-import ProductDetails from './product_info/ProductDetails';
-import ProductDescription from './product_info/ProductDescription';
-import TechnicalSheet from './product_info/TechnicalSheet';
-// Since we don't have props, we can remove the interface entirely
-// and change the component definition
+import ProductImageCarousel from './main_product_info/ProductImageCarousel ';
+import ProductDetails from './main_product_info/ProductDetails';
+import ProductDescription from './main_product_info/ProductDescription';
+import TechnicalSheet from './main_product_info/TechnicalSheet';
+import Specifications from './main_product_info/Specifications ';
 
 interface Specification {
   label: string;
@@ -38,17 +37,16 @@ const productData: ProductData = {
     { label: "Square", value: "2.4 mm" }
   ],
   images: [
-    "/rubix.avif",
-    "/rubix.avif",
-    "/rubix.avif"
+    "/cylind.jpg",
+    "/cylind1.jpg",
+    "/cylind2.jpg",
+    
   ]
 };
 
-// Changed from FC<MainProductInfoProps> to simply FC with no generic
 const MainProductInfo: React.FC = () => {
   const [isMobile, setIsMobile] = useState(false);
 
-  // Check if we're on mobile for conditional rendering
   useEffect(() => {
     const checkIsMobile = () => {
       setIsMobile(window.innerWidth < 768);
@@ -89,8 +87,8 @@ const MainProductInfo: React.FC = () => {
         />
         
         <TechnicalSheet />
-      
-      </div>
+        <Specifications specifications={productData.specifications} />
+        </div>
     </div>
   );
 };
