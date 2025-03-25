@@ -7,7 +7,7 @@ interface EnrichmentLevelProps {
 const levels = ["LIS", "BAS", "OPT", "EXC"];
 
 const EnrichmentLevel: React.FC<EnrichmentLevelProps> = ({ level }) => {
-  const levelIndex = levels.indexOf(level);
+const levelIndex = levels.indexOf(level);
 
   return (
     <div className="w-full flex flex-col items-center space-y-1">

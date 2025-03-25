@@ -27,7 +27,7 @@ const SidebarInfo: React.FC<SidebarInfoProps> = ({
       productAvailability={productAvailability}
       className="mt-4"
     />
-          <ProductRange className="mt-4" />
+        <ProductRange className="mt-4" />
 
   </div>
   );

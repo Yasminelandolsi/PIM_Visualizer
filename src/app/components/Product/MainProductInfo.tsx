@@ -40,7 +40,7 @@ const productData: ProductData = {
     "/cylind.jpg",
     "/cylind1.jpg",
     "/cylind2.jpg",
-    
+  
   ]
 };
 
@@ -87,8 +87,13 @@ const MainProductInfo: React.FC = () => {
         />
         
         <TechnicalSheet />
-        <Specifications specifications={productData.specifications} />
-        </div>
+        <Specifications 
+         specifications={[
+    { label: "Color", value: "Black" },
+    { label: "Weight Capacity", value: "300 lbs" },
+    { label: "Assembly Required", value: true }
+  ]}
+/>        </div>
     </div>
   );
 };

@@ -1,35 +1,67 @@
 import React, { ReactNode } from 'react';
 
+// Define a union type for all possible attribute values
+type AttributeValue = string | number | boolean | string[] | null | undefined;
+
+// Update the Specification interface to use the new type
 interface Specification {
   label: string;
-  value: string;
+  value: AttributeValue;
 }
 
 interface SpecificationsProps {
-  specifications: Specification[];
+  specifications?: Specification[];
+  // Use Record with specific value types instead of any
+  attributes?: Record<string, AttributeValue>;
   title?: string;
 }
 
-// Helper function to detect if a string contains numerical values
-const containsNumber = (str: string): boolean => {
-  return /\d/.test(str);
-};
-
-// Changed return type from JSX.Element to ReactNode
-const formatValue = (value: string): ReactNode => {
-  if (containsNumber(value)) {
-    // For values with numbers, make them bold
-    return <span className="font-bold">{value}</span>;
+// Enhanced value formatting to handle multiple data types
+const formatValue = (value: AttributeValue): ReactNode => {
+  // Handle null/undefined
+  if (value === null || value === undefined) {
+    return <span className="text-gray-400">Not specified</span>;
   }
-  // For non-numerical values, return as is
-  return <span>{value}</span>;
+  
+
+  
+  // Handle numeric values
+  if (typeof value === 'number' || (typeof value === 'string' && /\d/.test(value))) {
+    return <span className="font-bold">{value.toString()}</span>;
+  }
+  
+  // Handle arrays (like lists of features)
+  if (Array.isArray(value)) {
+    return (
+      <ul className="list-disc pl-5">
+        {value.map((item, idx) => (
+          <li key={idx}>{item}</li>
+        ))}
+      </ul>
+    );
+  }
+  
+  // Default: return as string
+  return <span>{String(value)}</span>;
 };
 
+// Helper function to convert attributes object to specifications array
+const convertAttributesToSpecifications = (attributes: Record<string, AttributeValue>): Specification[] => {
+  return Object.entries(attributes).map(([key, value]) => ({
+    label: key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase()), // Format camelCase to Title Case
+    value: value
+  }));
+};
 const Specifications: React.FC<SpecificationsProps> = ({
   specifications,
+  attributes,
   title = "Technical Specifications"
 }) => {
-  if (!specifications || specifications.length === 0) {
+  // Convert attributes object to specifications array if provided
+  const specs = specifications || (attributes ? convertAttributesToSpecifications(attributes) : []);
+  
+  // Don't render if no specifications are available
+  if (!specs || specs.length === 0) {
     return null;
   }
 
@@ -52,7 +84,7 @@ const Specifications: React.FC<SpecificationsProps> = ({
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {specifications.map((spec, index) => (
+              {specs.map((spec, index) => (
                 <tr key={index} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
                   <td className="px-6 py-4 text-sm font-medium text-gray-900">
                     {spec.label}
@@ -69,7 +101,7 @@ const Specifications: React.FC<SpecificationsProps> = ({
       
       {/* Mobile-friendly card style for small screens */}
       <div className="md:hidden space-y-4">
-        {specifications.map((spec, index) => (
+        {specs.map((spec, index) => (
           <div key={index} className="border border-gray-200 rounded-lg overflow-hidden">
             <div className="bg-gray-50 px-4 py-2 font-medium text-gray-900">
               {spec.label}

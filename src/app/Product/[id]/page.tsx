@@ -1,9 +1,9 @@
 'use client'
 
-import MainProductInfo from "../components/Product/MainProductInfo";
-import SidebarInfo from "../components/Product/SidebarInfo";
-import BreadcrumbNav from "../components/Product/Breadcrumb";
-import ProductInfoHeader from "../components/Product/ProductInfoHeader";
+import MainProductInfo from "../../components/Product/MainProductInfo";
+import SidebarInfo from "../../components/Product/SidebarInfo";
+import BreadcrumbNav from "../../components/Product/Breadcrumb";
+import ProductInfoHeader from "../../components/Product/ProductInfoHeader";
 
 
 const ProductPage = () => {
@@ -39,7 +39,7 @@ const ProductPage = () => {
          productAvailability={[
         { supplier: "Orexad", erpReference: "C600-2214069", countryCode: "FR" },
         { supplier: "Biesheuvel", erpReference: "06850194", countryCode: "NL" },
-        { supplier: "Minetti", erpReference: "170000000538294", countryCode: "IT" },
+    
         { supplier: "Zitec", erpReference: "3234987", countryCode: "DE" }
       ]}
     />

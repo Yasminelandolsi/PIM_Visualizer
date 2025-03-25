@@ -2,7 +2,6 @@ import { CheckCircleIcon, XCircleIcon } from "lucide-react";
 import ReactCountryFlag from "react-country-flag";
 import { useEffect, useState } from "react";
 
-// Define the structure of language data
 interface Language {
   code: string;
   name: string;
@@ -10,8 +9,8 @@ interface Language {
 }
 
 interface AvailableTranslationsProps {
-  availableLanguages?: string[]; // Codes of available languages from API
-  onlyShowAvailable?: boolean; // Optional prop to filter display
+  availableLanguages?: string[]; 
+  onlyShowAvailable?: boolean; 
 }
 
 const ALL_SUPPORTED_LANGUAGES: Language[] = [

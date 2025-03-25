@@ -19,6 +19,7 @@ const ProductInfoHeader: React.FC<ProductInfoHeaderProps> = ({
   return (
     <div className={`p-4 border border-gray-200 rounded-lg shadow bg-white mb-6 ${className}`}>
       <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
+        
         {/* Quality Control */}
         <div className="flex-1 p-2 md:p-4">
           <h2 className="text-lg font-semibold mb-2 text-center">QUALITY CHECK</h2>
