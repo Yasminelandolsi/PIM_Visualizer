@@ -3,14 +3,8 @@
 @import "../../node_modules/@mako/core/dist/style.css";
 }
 
+
 @import "tailwindcss";
-
-/* Reset Mako styles for non-Mako elements */
-
-
-
-
-
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;

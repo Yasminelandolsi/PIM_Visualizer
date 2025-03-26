@@ -1,31 +1,27 @@
-import { useState } from "react";
+import React, { memo } from "react";
 
-const CategoryHeader = ({ categoryName }: { categoryName: string }) => {
-  const [view, setView] = useState("grid");
-
+interface CategoryHeaderProps {
+  categoryName: string;
+  description?: string;
+}
+const CategoryHeader: React.FC<CategoryHeaderProps> = ({ 
+  categoryName, 
+  description,  
+}) => {
   return (
-    <div className="flex justify-between items-center p-4 border-b">
-      <h1 className="text-xl font-bold">{categoryName}</h1>
-      <div className="flex gap-4">
-        <button
-          className={`${view === "grid" ? "font-bold" : ""}`}
-          onClick={() => setView("grid")}
-        >
-          Grid
-        </button>
-        <button
-          className={`${view === "list" ? "font-bold" : ""}`}
-          onClick={() => setView("list")}
-        >
-          List
-        </button>
-        <select className="border p-2 rounded">
-          <option value="asc">Name Ascending</option>
-          <option value="desc">Name Descending</option>
-        </select>
+    <header className="mt-4 mb-8 border-b border-gray-200 pb-4">
+      <div className="flex flex-wrap items-baseline justify-between">
+        <h1 className="text-2xl sm:text-3xl font-bold text-[#041e50]">
+          {categoryName}
+        </h1>
       </div>
-    </div>
+      {description && (
+        <p className="text-gray-600 mt-2 max-w-3xl">
+          {description}
+        </p>
+      )}
+    </header>
   );
 };
 
-export default CategoryHeader;
+export default memo(CategoryHeader);
