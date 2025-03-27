@@ -2,7 +2,6 @@
 import React from 'react';
 import { Breadcrumb as MakoBreadcrumb } from "@mako/core";
 
-// You can allow overriding the default items if needed
 interface BreadcrumbNavProps {
   items?: Array<{
     href: string;

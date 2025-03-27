@@ -1,12 +1,10 @@
 import React, { memo } from 'react';
 
-// Type definition for sort options
 type SortOption = {
   value: string;
   label: string;
 };
 
-// Define sort options as a constant to avoid recreating on each render
 const SORT_OPTIONS: SortOption[] = [
   { value: 'relevance', label: 'Relevance' },
   { value: 'name-asc', label: 'Name (A-Z)' },
@@ -21,7 +19,6 @@ interface SortingBarProps {
   productCount: number;
 }
 
-// SVG components to avoid repetition
 const GridIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
@@ -41,12 +38,11 @@ const SortingBar: React.FC<SortingBarProps> = ({
   setSortBy,
   productCount 
 }) => {
-  // Handle sort change with proper type safety
+  
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSortBy(e.target.value);
   };
   
-  // View mode toggle handlers with keyboard support
   const toggleGridView = () => setViewMode('grid');
   const toggleListView = () => setViewMode('list');
   

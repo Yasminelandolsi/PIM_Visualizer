@@ -1,5 +1,4 @@
 import { CheckCircleIcon, XCircleIcon } from "lucide-react";
-
 interface QualityControlProps {
   verified: boolean;
 }
@@ -17,7 +16,7 @@ const QualityControl: React.FC<QualityControlProps> = ({ verified }) => {
         </>
       ) : (
         <>
-          <XCircleIcon className="text-gray-400" size={20} />
+          <XCircleIcon className="text-red-400" size={20} />
           <span className="font-medium text-gray-500">{STATUS_TEXT.notVerified}</span>
         </>
       )}

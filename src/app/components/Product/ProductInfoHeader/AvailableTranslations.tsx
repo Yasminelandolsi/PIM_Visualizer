@@ -87,7 +87,7 @@ const AvailableTranslations: React.FC<AvailableTranslationsProps> = ({
             {isAvailable ? (
               <CheckCircleIcon className="text-green-500" size={14} />
             ) : (
-              <XCircleIcon className="text-gray-400" size={14} />
+              <XCircleIcon className="text-red-400" size={14} />
             )}
           </div>
         );

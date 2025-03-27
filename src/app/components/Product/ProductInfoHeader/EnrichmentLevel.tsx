@@ -1,4 +1,3 @@
-// components/EnrichmentLevel.tsx
 
 interface EnrichmentLevelProps {
   level: string;

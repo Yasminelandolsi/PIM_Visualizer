@@ -1,20 +1,19 @@
 'use client'
-
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import BreadcrumbNav from "../../components/category/Breadcrumb";
 import CategoryHeader from "../../components/category/CategoryHeader";
-import FilterSidebar from "../../components/category/FilterSidebar";
 import SortingBar from "../../components/category/SortingBar";
 import ProductGrid from "../../components/category/ProductGrid";
 import MobileFilterToggle from "../../components/category/MobileFilterToggle";
 import { Category, Product, FilterOptions } from '../../types/category.types';
+import FilterSidebar from '../../components/category/filters/FilterSidebar';
 
-// Single category for testing
 const category: Category = { 
   name: "Industrial Tools", 
   description: "Professional tools for industrial applications",
   subcategories: ["Power Tools", "Hand Tools", "Measuring Instruments", "Safety Equipment", "Welding"]
 };
+
 
 // Industrial products for testing
 const sampleProducts: Product[] = [
@@ -118,7 +117,8 @@ const getFilterOptions = (products: Product[]): FilterOptions => {
 const filterOptions = getFilterOptions(sampleProducts);
 
 const CategoryPage: React.FC = () => {
-  // State management
+
+  // State management with memoized callbacks for better performance
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [mobileFilterOpen, setMobileFilterOpen] = useState<boolean>(false);
   const [subcategoryFilter, setSubcategoryFilter] = useState<string[]>([]);
@@ -128,33 +128,32 @@ const CategoryPage: React.FC = () => {
   const [enrichmentFilter, setEnrichmentFilter] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<string>('featured');
 
+
+
   // Filter products
   const filteredProducts = sampleProducts
-    // Filter by subcategory
     .filter(product => {
       if (subcategoryFilter.length === 0) return true;
       return subcategoryFilter.includes(product.subcategory || '');
     })
-    // Filter by manufacturer
     .filter(product => {
       if (manufacturerFilter.length === 0) return true;
       return manufacturerFilter.includes(product.manufacturer);
     })
-    // Filter by ERP reference
     .filter(product => {
       if (!erpReferenceFilter) return true;
       return product.erpReference.includes(erpReferenceFilter);
     })
-    // Filter by language
     .filter(product => {
       if (!languageFilter) return true;
       return product.availableLanguages?.includes(languageFilter) || false;
     })
-    // Filter by enrichment level
     .filter(product => {
       if (!enrichmentFilter) return true;
       return product.enrichmentLevel === enrichmentFilter;
     });
+
+
     
   // Sort products
   const sortedProducts = [...filteredProducts].sort((a, b) => {
@@ -169,37 +168,39 @@ const CategoryPage: React.FC = () => {
     }
   });
 
-  // Toggle subcategory filter
-  const toggleSubcategoryFilter = (subcategory: string) => {
-    if (subcategoryFilter.includes(subcategory)) {
-      setSubcategoryFilter(subcategoryFilter.filter(sc => sc !== subcategory));
-    } else {
-      setSubcategoryFilter([...subcategoryFilter, subcategory]);
-    }
-  };
 
-  // Toggle manufacturer filter
-  const toggleManufacturerFilter = (manufacturer: string) => {
-    if (manufacturerFilter.includes(manufacturer)) {
-      setManufacturerFilter(manufacturerFilter.filter(m => m !== manufacturer));
-    } else {
-      setManufacturerFilter([...manufacturerFilter, manufacturer]);
-    }
-  };
+  // Toggle subcategory filter - memoized for better performance
+  const toggleSubcategoryFilter = useCallback((subcategory: string) => {
+    setSubcategoryFilter(prev => 
+      prev.includes(subcategory) 
+        ? prev.filter(sc => sc !== subcategory) 
+        : [...prev, subcategory]
+    );
+  }, []);
+
+
+  // Toggle manufacturer filter - memoized for better performance
+  const toggleManufacturerFilter = useCallback((manufacturer: string) => {
+    setManufacturerFilter(prev => 
+      prev.includes(manufacturer) 
+        ? prev.filter(m => m !== manufacturer) 
+        : [...prev, manufacturer]
+    );
+  }, []);
 
   // Toggle mobile filter
-  const toggleMobileFilter = () => {
-    setMobileFilterOpen(!mobileFilterOpen);
-  };
+  const toggleMobileFilter = useCallback(() => {
+    setMobileFilterOpen(prev => !prev);
+  }, []);
   
-  // Reset all filters
-  const resetFilters = () => {
+  // Reset all filters - memoized for better performance
+  const resetFilters = useCallback(() => {
     setSubcategoryFilter([]);
     setManufacturerFilter([]);
     setErpReferenceFilter(null);
     setLanguageFilter(null);
     setEnrichmentFilter(null);
-  };
+  }, []);
 
   return (
     <>
@@ -214,7 +215,7 @@ const CategoryPage: React.FC = () => {
           />
           
           <div className="flex flex-col md:flex-row gap-6">
-            {/* Left Sidebar for Filtering */}
+            {/* Left Sidebar for Filtering - Using our new modular FilterSidebar */}
             <FilterSidebar 
               filterOptions={filterOptions}
               subcategoryFilter={subcategoryFilter}

@@ -3,7 +3,7 @@ import ProductImageCarousel from './main_product_info/ProductImageCarousel ';
 import ProductDetails from './main_product_info/ProductDetails';
 import ProductDescription from './main_product_info/ProductDescription';
 import TechnicalSheet from './main_product_info/TechnicalSheet';
-import Specifications from './main_product_info/Specifications ';
+import Specifications from './main_product_info/Specifications';
 
 interface Specification {
   label: string;
@@ -59,8 +59,8 @@ const MainProductInfo: React.FC = () => {
   }, []);
 
   return (
-    <div id="product-info-main" className="flex-grow pr-0 md:pr-2 mb-24 product-info-container">
-      <div className="border border-gray-200 rounded-lg p-4 bg-white shadow overflow-visible">
+    <div id="product-info-main" className="w-full flex flex-col">
+    <div className="border border-gray-200 rounded-lg p-4 bg-white shadow flex-1">
         {isMobile && <h2 className="text-2xl font-semibold mb-4">{productData.name}</h2>}
         
         {/* Rest of component remains the same */}

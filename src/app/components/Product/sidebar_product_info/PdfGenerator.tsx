@@ -285,7 +285,7 @@ const PdfGenerator: React.FC<PdfGeneratorProps> = ({
   return (
     <div className={className}>
       <Button
-        shape="round"
+      
         size="large"
         variant="primary"
         style={{ backgroundColor: '#041e50', color: 'white' }}
