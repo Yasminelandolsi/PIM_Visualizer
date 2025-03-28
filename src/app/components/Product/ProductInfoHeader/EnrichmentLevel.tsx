@@ -2,7 +2,6 @@
 interface EnrichmentLevelProps {
   level: string;
 }
-
 const levels = ["LIS", "BAS", "OPT", "EXC"];
 
 const EnrichmentLevel: React.FC<EnrichmentLevelProps> = ({ level }) => {
@@ -28,5 +27,4 @@ const levelIndex = levels.indexOf(level);
     </div>
   );
 };
-
 export default EnrichmentLevel;

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Breadcrumb as MakoBreadcrumb } from "@mako/core";
+import { productData } from '../../mockData/productData';
 
 interface BreadcrumbNavProps {
   items?: Array<{
@@ -16,11 +17,11 @@ const BreadcrumbNav: React.FC<BreadcrumbNavProps> = ({ items }) => {
     },
     {
       href: '/Category',
-      label: 'Category'
+      label: productData.category
     },
     {
-      href: '/Product/id',
-      label: 'Product_id'
+      href: `/Product/${productData.euReference}`,
+      label: `${productData.name} (${productData.euReference})`
     }
   ];
 
@@ -29,8 +30,7 @@ const BreadcrumbNav: React.FC<BreadcrumbNavProps> = ({ items }) => {
   return (
     <div className="px-2">
       <div className="max-w-6xl mx-auto py-4">
-       
-        <div style={{ color: "#041e50" }}>
+        <div className="text-[#041e50]">
           <MakoBreadcrumb items={breadcrumbItems} />
         </div>
       </div>

@@ -1,50 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import ProductImageCarousel from './main_product_info/ProductImageCarousel ';
+'use client'
+import React, { useState, useEffect } from 'react';
+import ProductImageCarousel from './main_product_info/ProductImageCarousel';
 import ProductDetails from './main_product_info/ProductDetails';
 import ProductDescription from './main_product_info/ProductDescription';
 import TechnicalSheet from './main_product_info/TechnicalSheet';
 import Specifications from './main_product_info/Specifications';
 
-interface Specification {
-  label: string;
-  value: string;
+interface ProductDataProps {
+  productData: {
+    name: string;
+    description: string;
+    fullDescription: string;
+    reference: string;
+    euReference: string;
+    ean: string;
+    mdmItemId: string;
+    images: string[];
+    specifications: Array<{ label: string; value: string | number | boolean }>;
+  };
 }
 
-interface ProductData {
-  name: string;
-  description: string;
-  fullDescription: string;
-  reference: string;
-  euReference: string;
-  ean: string;
-  mdmItemId: string;
-  specifications: Specification[];
-  images: string[];
-}
-
-const productData: ProductData = {
-  name: "Hand-reamers B952",
-  description: "HSS cylindrical hand drill Dormer B9521.2",
-  fullDescription: "Hand-reamers B952 is a high-quality HSS cylindrical hand drill designed for precision work. Made with durable materials, this Dormer B9521.2 tool offers excellent performance for extended periods. Suitable for both professional and DIY applications.",
-  reference: "B9521.2",
-  euReference: "G1086004946",
-  ean: "7320760140901",
-  mdmItemId: "1229277",
-  specifications: [
-    { label: "Diameter", value: "1.2 mm" },
-    { label: "Total length", value: "50 mm" },
-    { label: "Length of cut", value: "32 mm" },
-    { label: "Square", value: "2.4 mm" }
-  ],
-  images: [
-    "/cylind.jpg",
-    "/cylind1.jpg",
-    "/cylind2.jpg",
-  
-  ]
-};
-
-const MainProductInfo: React.FC = () => {
+const MainProductInfo: React.FC<ProductDataProps> = ({ productData }) => {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -60,10 +36,9 @@ const MainProductInfo: React.FC = () => {
 
   return (
     <div id="product-info-main" className="w-full flex flex-col">
-    <div className="border border-gray-200 rounded-lg p-4 bg-white shadow flex-1">
+      <div className="p-4 border border-gray-200 rounded-lg p-4 bg-white shadow flex-1">
         {isMobile && <h2 className="text-2xl font-semibold mb-4">{productData.name}</h2>}
         
-        {/* Rest of component remains the same */}
         <div className="flex flex-col md:flex-row md:space-x-6 mb-6">
           <ProductImageCarousel 
             images={productData.images} 
@@ -88,12 +63,9 @@ const MainProductInfo: React.FC = () => {
         
         <TechnicalSheet />
         <Specifications 
-         specifications={[
-    { label: "Color", value: "Black" },
-    { label: "Weight Capacity", value: "300 lbs" },
-    { label: "Assembly Required", value: true }
-  ]}
-/>        </div>
+          specifications={productData.specifications}
+        />
+      </div>
     </div>
   );
 };

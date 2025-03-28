@@ -78,7 +78,7 @@ const ProductImageCarousel: React.FC<ProductImageCarouselProps> = ({ images, pro
               <button 
                 key={index} 
                 onClick={() => setCurrentImage(index)} 
-                className={`w-12 h-12 border ${currentImage === index ? 'border-blue-500' : 'border-gray-300'} rounded`}
+                className={`w-12 h-12 border ${currentImage === index ? 'border-[#041e50]' : 'border-gray-300'} rounded`}
               >
                 <div className="relative w-full h-full">
                   <Image 

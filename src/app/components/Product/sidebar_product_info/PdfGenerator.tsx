@@ -65,7 +65,7 @@ const PdfGenerator: React.FC<PdfGeneratorProps> = ({
       const clonedElement = element.cloneNode(true) as HTMLElement;
       tempContainer.appendChild(clonedElement);
       
-      // Apply specific styles to handle borders and OKLCH color issues
+      // Apply specific styles 
       const cleanStylesheet = document.createElement('style');
       cleanStylesheet.textContent = `
         #temp-pdf-content * {
@@ -126,16 +126,14 @@ const PdfGenerator: React.FC<PdfGeneratorProps> = ({
       `;
       document.head.appendChild(cleanStylesheet);
       
-      // Convert OKLCH colors to safe alternatives
       const replaceOklchColors = (element: HTMLElement) => {
         const computedStyle = window.getComputedStyle(element);
         
-        // Store the computed color before we change anything
         const textColor = computedStyle.color;
         const bgColor = computedStyle.backgroundColor;
         
-        // Only modify if the color contains OKLCH
         if (element.style.color && element.style.color.includes('oklch')) {
+
           // Use the element's tag to determine appropriate color
           if (element.tagName.match(/^H[1-6]$/)) {
             element.style.color = '#041e50'; // Brand blue for headings
@@ -143,7 +141,6 @@ const PdfGenerator: React.FC<PdfGeneratorProps> = ({
             element.style.color = '#333333'; // Dark gray for regular text
           }
         }
-        // For computed colors that might be OKLCH but not inline
         else if (textColor.includes('oklch')) {
           if (element.tagName.match(/^H[1-6]$/)) {
             element.style.color = '#041e50';
@@ -152,7 +149,6 @@ const PdfGenerator: React.FC<PdfGeneratorProps> = ({
           }
         }
         
-        // Handle background colors with OKLCH
         if (element.style.backgroundColor && element.style.backgroundColor.includes('oklch')) {
           element.style.backgroundColor = 'transparent';
         } else if (bgColor.includes('oklch')) {
