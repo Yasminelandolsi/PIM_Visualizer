@@ -4,7 +4,7 @@ import React, { useState, useMemo } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { productData } from '../../../mockData/productData';
 import BreadcrumbNav from '../../../components/Product/Breadcrumb';
-import { RangeProduct, FilterState, SortDirection, ViewMode } from '../../../components/range/types/range.type';
+import { RangeProduct, FilterState, SortDirection, ViewMode } from '../../../types/range.type';
 import SearchFilterBar from '../../../components/range/SearchFilterBar';
 import FilterPanel from '../../../components/range/FilterPanel';
 import ActiveFilters from '../../../components/range/ActiveFilters';

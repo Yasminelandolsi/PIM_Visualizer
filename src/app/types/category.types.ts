@@ -1,9 +1,9 @@
 export interface Category {
+  id: string;
   name: string;
   description: string;
-  subcategories?: string[];
+  subcategories: string[];
 }
-
 export interface Product {
   id: string;
   title: string;
@@ -17,21 +17,9 @@ export interface Product {
   description?: string;
   enrichmentLevel?: 'Basic' | 'Standard' | 'Premium' | 'LIS';
   availableLanguages?: string[];
-  rating?: number;
 }
 
-export interface PriceRange {
-  id: string;
-  label: string;
-  min: number;
-  max: number;
-}
 
-export interface RatingOption {
-  id: string;
-  label: string;
-  value: number;
-}
 
 export interface FilterOptions {
   subcategories: string[];

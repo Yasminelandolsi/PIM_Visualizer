@@ -1,5 +1,5 @@
 import { X } from 'lucide-react';
-import { FilterState }  from './types/range.type';
+import { FilterState }  from '../../types/range.type';
 
 interface FilterPanelProps {
   specificationKeys: string[];

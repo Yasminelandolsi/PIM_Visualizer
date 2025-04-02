@@ -32,7 +32,7 @@ const ProductRange = React.memo<ProductRangeProps>(({
       rangeId: productRange.rangeId
     }).toString();
     
-    return `/Product/Range/${productRange.rangeId}?${params}`;
+    return `/product/range/${productRange.rangeId}?${params}`;
   }, [currentProductId, productRange]);
 
   return (

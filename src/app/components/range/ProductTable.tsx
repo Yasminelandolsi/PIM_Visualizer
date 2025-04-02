@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { ChevronDown, ChevronUp } from 'lucide-react';
-import { RangeProduct, SortDirection }   from './types/range.type';
+import { RangeProduct, SortDirection }   from '../../types/range.type';
 
 interface ProductTableProps {
   products: RangeProduct[];

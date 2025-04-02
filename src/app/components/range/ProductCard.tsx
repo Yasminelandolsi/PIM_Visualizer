@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import Link from 'next/link';
 import { ChevronDown, ChevronRight } from 'lucide-react';
-import { RangeProduct } from './types/range.type';
+import { RangeProduct } from '../../types/range.type';
 import SpecCard from './SpecCard';
 
 interface ProductCardProps {

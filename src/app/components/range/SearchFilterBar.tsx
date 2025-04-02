@@ -1,5 +1,5 @@
 import { Search, Filter } from 'lucide-react';
-import { FilterState, ViewMode } from './types/range.type';
+import { FilterState, ViewMode } from '../../types/range.type';
 
 interface SearchFilterBarProps {
   searchTerm: string;

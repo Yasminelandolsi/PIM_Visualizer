@@ -1,4 +1,4 @@
-import { RangeProduct } from './types/range.type';
+import { RangeProduct } from '../../types/range.type';
 import ProductCard from './ProductCard';
 
 interface ProductCardsProps {

@@ -1,134 +1,45 @@
 'use client'
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import BreadcrumbNav from "../../components/category/Breadcrumb";
 import CategoryHeader from "../../components/category/CategoryHeader";
 import SortingBar from "../../components/category/SortingBar";
 import ProductGrid from "../../components/category/ProductGrid";
 import MobileFilterToggle from "../../components/category/MobileFilterToggle";
-import { Category, Product, FilterOptions } from '../../types/category.types';
 import FilterSidebar from '../../components/category/filters/FilterSidebar';
+import { sampleProducts, getFilterOptions, getCategoryById } from '../../mockData/categoryData';
 
-const category: Category = { 
-  name: "Industrial Tools", 
-  description: "Professional tools for industrial applications",
-  subcategories: ["Power Tools", "Hand Tools", "Measuring Instruments", "Safety Equipment", "Welding"]
-};
+const CategoryPage: React.FC<{ params: { id: string } }> = ({ params }) => {
+  const searchParams = useSearchParams();
+  const subcategoryParam = searchParams.get('subcategory');
+  
+  // Get category information
+  const categoryInfo = getCategoryById(params.id);
+  
+  // Get filter options from the sample products - filtered for this category
+  const categoryProducts = sampleProducts.filter(p => p.category === params.id);
+  const filterOptions = getFilterOptions(categoryProducts);
 
-
-// Industrial products for testing
-const sampleProducts: Product[] = [
-  {
-    id: "t1",
-    title: "Industrial Grade Drill Press",
-    reference: "DRL-5500",
-    erpReference: "C600-2214069",
-    ean: "5901234123457",
-    manufacturer: "PowerMaster",
-    image: "https://placehold.co/300x300/e2e8f0/1e293b?text=Drill+Press",
-    category: "industrial-tools",
-    subcategory: "Power Tools",
-    description: "Heavy-duty drill press with variable speed control and digital depth gauge.",
-    enrichmentLevel: "Premium",
-    availableLanguages: ["en", "fr", "de", "es"]
-  },
-  {
-    id: "t2",
-    title: "Professional Torque Wrench Set",
-    reference: "TWS-220",
-    erpReference: "B400-3365128",
-    ean: "5901234123458",
-    manufacturer: "PrecisionPro",
-    image: "https://placehold.co/300x300/e2e8f0/1e293b?text=Torque+Wrench",
-    category: "industrial-tools",
-    subcategory: "Hand Tools",
-    description: "High-precision torque wrench set with digital display and calibration certificate.",
-    enrichmentLevel: "Premium",
-    availableLanguages: ["en", "fr", "de"]
-  },
-  {
-    id: "t3",
-    title: "Laser Distance Meter",
-    reference: "LDM-150",
-    erpReference: "M200-1124567",
-    ean: "5901234123459",
-    manufacturer: "MeasureMax",
-    image: "https://placehold.co/300x300/e2e8f0/1e293b?text=Distance+Meter",
-    category: "industrial-tools",
-    subcategory: "Measuring Instruments",
-    description: "Advanced laser distance meter with 150m range and Bluetooth connectivity.",
-    enrichmentLevel: "Standard",
-    availableLanguages: ["en", "fr"]
-  },
-  {
-    id: "t4",
-    title: "Industrial Safety Helmet",
-    reference: "SH-2000",
-    erpReference: "S300-9987654",
-    ean: "5901234123460",
-    manufacturer: "SafeGuard",
-    image: "https://placehold.co/300x300/e2e8f0/1e293b?text=Safety+Helmet",
-    category: "industrial-tools",
-    subcategory: "Safety Equipment",
-    description: "Impact-resistant safety helmet with integrated face shield and ear protection.",
-    enrichmentLevel: "Basic",
-    availableLanguages: ["en"]
-  },
-  {
-    id: "t5",
-    title: "Professional MIG Welder",
-    reference: "WLD-3500",
-    erpReference: "W500-8876543",
-    ean: "5901234123461",
-    manufacturer: "WeldTech",
-    image: "https://placehold.co/300x300/e2e8f0/1e293b?text=MIG+Welder",
-    category: "industrial-tools",
-    subcategory: "Welding",
-    description: "Professional-grade MIG welder with digital controls and gas/gasless capability.",
-    enrichmentLevel: "LIS",
-    availableLanguages: ["en", "fr", "de", "es", "it"]
-  },
-  {
-    id: "t6",
-    title: "Cordless Impact Wrench",
-    reference: "IW-1200",
-    erpReference: "C600-7766554",
-    ean: "5901234123462",
-    manufacturer: "PowerMaster",
-    image: "https://placehold.co/300x300/e2e8f0/1e293b?text=Impact+Wrench",
-    category: "industrial-tools",
-    subcategory: "Power Tools",
-    description: "Heavy-duty cordless impact wrench with 1200Nm torque and brushless motor.",
-    enrichmentLevel: "Standard",
-    availableLanguages: ["en", "fr"]
-  }
-];
-
-// Extract filter options from products for the sidebar
-const getFilterOptions = (products: Product[]): FilterOptions => {
-  return {
-    subcategories: [...new Set(products.map(p => p.subcategory || '').filter(Boolean))],
-    manufacturers: [...new Set(products.map(p => p.manufacturer))],
-    erpReferences: [...new Set(products.map(p => p.erpReference))],
-    languages: [...new Set(products.flatMap(p => p.availableLanguages || []))],
-    enrichmentLevels: [...new Set(products.map(p => p.enrichmentLevel || '').filter(Boolean))]
-  };
-};
-
-const filterOptions = getFilterOptions(sampleProducts);
-
-const CategoryPage: React.FC = () => {
-
-  // State management with memoized callbacks for better performance
+  // State management
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [mobileFilterOpen, setMobileFilterOpen] = useState<boolean>(false);
-  const [subcategoryFilter, setSubcategoryFilter] = useState<string[]>([]);
+  const [subcategoryFilter, setSubcategoryFilter] = useState<string[]>(
+    subcategoryParam ? [subcategoryParam] : []
+  );
   const [manufacturerFilter, setManufacturerFilter] = useState<string[]>([]);
   const [erpReferenceFilter, setErpReferenceFilter] = useState<string | null>(null);
   const [languageFilter, setLanguageFilter] = useState<string | null>(null);
   const [enrichmentFilter, setEnrichmentFilter] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<string>('featured');
 
-
+  // Update filters if subcategory changes in URL
+  useEffect(() => {
+    if (subcategoryParam) {
+      setSubcategoryFilter([subcategoryParam]);
+    } else {
+      setSubcategoryFilter([]);
+    }
+  }, [subcategoryParam]);
 
   // Filter products
   const filteredProducts = sampleProducts
@@ -152,8 +63,6 @@ const CategoryPage: React.FC = () => {
       if (!enrichmentFilter) return true;
       return product.enrichmentLevel === enrichmentFilter;
     });
-
-
     
   // Sort products
   const sortedProducts = [...filteredProducts].sort((a, b) => {
@@ -168,7 +77,6 @@ const CategoryPage: React.FC = () => {
     }
   });
 
-
   // Toggle subcategory filter - memoized for better performance
   const toggleSubcategoryFilter = useCallback((subcategory: string) => {
     setSubcategoryFilter(prev => 
@@ -177,7 +85,6 @@ const CategoryPage: React.FC = () => {
         : [...prev, subcategory]
     );
   }, []);
-
 
   // Toggle manufacturer filter - memoized for better performance
   const toggleManufacturerFilter = useCallback((manufacturer: string) => {
@@ -204,8 +111,13 @@ const CategoryPage: React.FC = () => {
 
   return (
     <>
-      <BreadcrumbNav />
-      
+<BreadcrumbNav 
+  items={[
+    { href: '/', label: 'Home' },
+    { href: '/category', label: 'Categories' },
+    { href: `/category/${params.id}`, label: categoryInfo?.name || 'Category' }
+  ]} 
+/>
       <div className="min-h-screen bg-gray-50 py-6 px-2 pb-32 relative overflow-x-hidden">
         <div className="max-w-6xl mx-auto">
           
@@ -236,9 +148,9 @@ const CategoryPage: React.FC = () => {
             <div className="flex-1">
               {/* Category Header */}
               <CategoryHeader 
-                categoryName={category.name}
-                description={category.description} 
-              />
+  categoryName={categoryInfo?.name || 'Category'}
+  description={categoryInfo?.description || 'No description available'} 
+/>
               
               {/* Sorting and View Options */}
               <SortingBar 
