@@ -12,6 +12,7 @@ interface SidebarInfoProps {
 }
 
 const SidebarInfo: React.FC<SidebarInfoProps> = ({ productAvailability = [], product }) => {
+  
   return (
     <div className="mt-4 md:mt-0 flex-1 flex flex-col">
       <div className="border border-gray-200 rounded-lg bg-white shadow overflow-hidden flex-1 flex flex-col">

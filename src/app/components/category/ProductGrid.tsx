@@ -1,6 +1,6 @@
 import React from 'react';
 import ProductCard from './ProductCard';
-import EmptyResults from './EmptyResults';
+import EmptyResults from '../EmptyResults';
 import { Product } from '../../types/category.types';
 
 interface ProductGridProps {

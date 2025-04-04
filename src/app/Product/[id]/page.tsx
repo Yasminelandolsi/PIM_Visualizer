@@ -1,16 +1,33 @@
 'use client'
 import { useProductDetail } from '../../custom_hooks/useProductDetail';
-import BreadcrumbNav from '../../components/Product/Breadcrumb';
+import BreadcrumbNav from '../../components/Breadcrumb';
 import ProductInfoHeader from '../../components/Product/ProductInfoHeader';
 import MainProductInfo from '../../components/Product/MainProductInfo';
 import SidebarInfo from '../../components/Product/SidebarInfo';
 import LoadingSpinner from '../../components/LoadingSpinner';
+import { useRouter } from 'next/navigation';
+import EmptyResults from '../../components/EmptyResults';
 
 export default function ProductPage({ params }: { params: { id: string } }) {
   const { product, isLoading } = useProductDetail(params.id);
+  const router = useRouter();
 
   if (isLoading || !product) {
     return <LoadingSpinner message="Loading product details..." />;
+  }
+
+  if (!product) {
+    return (
+      <div className="min-h-screen bg-gray-100 py-6 px-2">
+        <div className="max-w-6xl mx-auto pt-10">
+          <EmptyResults
+            resetFilters={() => router.push('/')}
+            message={`Product with ID "${params.id}" could not be found. It may have been removed or the ID is incorrect.`}
+            buttonText="Return to Home"
+          />
+        </div>
+      </div>
+    );
   }
   return (
     <>

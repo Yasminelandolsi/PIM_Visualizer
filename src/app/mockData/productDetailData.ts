@@ -122,11 +122,12 @@ const generateProductRange = (product: Product): ProductRange => {
   const products = [];
   
   // Add the current product to the range
+  const productImage = product.image || '/placeholder.png';
   products.push({
     id: safeReference,
     euRef: `G${Math.floor(Math.random() * 9000000000 + 1000000000)}`,
     name: `${product.title || 'Product'} ${safeReference}`,
-    image: product.image || '/placeholder.png',
+    image: productImage,
     specifications: { ...baseSpecs }
   });
   
@@ -161,7 +162,7 @@ const generateProductRange = (product: Product): ProductRange => {
       id,
       euRef,
       name: `${product.title || 'Product'} ${id}`,
-      image: product.image || '/placeholder.png',
+      image: productImage, // Using the same image
       specifications: modifiedSpecs
     });
   }
@@ -201,8 +202,6 @@ export const transformToDetailProduct = (product: Product): ProductDetail => {
     availableLanguages: product.availableLanguages || ['en']
   };
   
-  // REMOVED: Code that generates additional images
-  
   // Generate a longer description
   const fullDescription = `${safeProduct.title} is a high-quality ${safeProduct.subcategory.toLowerCase()} designed for professional use. 
     Manufactured by ${safeProduct.manufacturer}, this tool offers superior performance and reliability in demanding conditions. 
@@ -216,7 +215,10 @@ export const transformToDetailProduct = (product: Product): ProductDetail => {
     enrichmentLevel = getRandomEnrichmentLevel();
   }
   
-  // Create the transformed product
+  // Create the transformed product with 3 copies of the same image
+  const productImage = safeProduct.image;
+  const productImages = [productImage, productImage, productImage];
+  
   return {
     name: safeProduct.title,
     description: safeProduct.description,
@@ -228,11 +230,11 @@ export const transformToDetailProduct = (product: Product): ProductDetail => {
     mdmItemId: `MDM-${Math.floor(Math.random() * 1000000 + 1000000)}`,
     
     qualityVerified: Math.random() > 0.3, // 70% chance of being verified
-    enrichmentLevel: enrichmentLevel, // Using the validated enrichment level
+    enrichmentLevel: enrichmentLevel,
     availableLanguages: safeProduct.availableLanguages,
     
-    // Use only the original image, not generated ones
-    images: [safeProduct.image],
+    // Each product now has exactly 3 images (duplicated)
+    images: productImages,
     
     specifications: generateSpecifications(product),
     availability: generateAvailability(product),
@@ -284,7 +286,7 @@ export const productDetailExample = {
   enrichmentLevel: "OPT",
   availableLanguages: ["fr", "en", "nl", "de", "es"],
   
-  // Reduced to just one image
+  // Keep the existing example with its 3 distinct images
   images: [
     "/cylind.jpg",
     "/cylind1.jpg",

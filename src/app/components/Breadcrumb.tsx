@@ -1,6 +1,6 @@
 import React from 'react';
 import { Breadcrumb as MakoBreadcrumb } from "@mako/core";
-import { ProductDetail } from '../../types/product.type';
+import { ProductDetail } from '../types/product.type';
 
 interface BreadcrumbNavProps {
   items?: Array<{

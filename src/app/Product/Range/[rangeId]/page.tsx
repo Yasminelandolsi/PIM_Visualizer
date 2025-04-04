@@ -1,8 +1,7 @@
 'use client';
-
-import React from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'next/navigation';
-import BreadcrumbNav from '@/app/components/Product/Breadcrumb';
+import BreadcrumbNav from '@/app/components/Breadcrumb';
 import { useProductRange } from '@/app/custom_hooks/useProductRange';
 import { useRangeProducts } from '@/app/components/range/hooks/Range';
 import { useViewMode } from '@/app/components/range/hooks/View';
@@ -11,10 +10,10 @@ import FilterPanel from '@/app/components/range/FilterPanel';
 import ActiveFilters from '@/app/components/range/ActiveFilters';
 import ProductTable from '@/app/components/range/ProductTable';
 import ProductCards from '@/app/components/range/ProductCards';
-import EmptyState from '@/app/components/range/EmptyState';
+import EmptyResults from '@/app/components/EmptyResults';
 import LoadingSpinner from '@/app/components/LoadingSpinner';
 import { useProductNavigation } from '@/app/custom_hooks/useProductNavigation';
-
+import ProductPagination from '@/app/components/ProductPagination';
 
 export default function RangePage({ params }: { params: { rangeId: string } }) {
   const { getProductDetailUrl } = useProductNavigation();
@@ -23,6 +22,10 @@ export default function RangePage({ params }: { params: { rangeId: string } }) {
   const searchParams = useSearchParams();
   const productId = searchParams.get('productId') || "";
   const productName = searchParams.get('productName') || "";
+  
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [pageSize, setPageSize] = useState<number>(4);
   
   // Get range data using the custom hook
   const { rangeData, sourceProduct, isLoading } = useProductRange(params.rangeId, productId);
@@ -66,13 +69,34 @@ export default function RangePage({ params }: { params: { rangeId: string } }) {
     toggleProductExpansion
   } = useViewMode();
 
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [activeFilters, searchTerm, sortField, sortDirection]);
+
+  // Calculate paginated products
+  const paginatedProducts = useMemo(() => {
+    const startIndex = (currentPage - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+    return filteredProducts.slice(startIndex, endIndex);
+  }, [filteredProducts, currentPage, pageSize]);
+
+  // Handle pagination change
+  const handlePageChange = (page: number, newPageSize: number) => {
+    setCurrentPage(page);
+    if (newPageSize !== pageSize) {
+      setPageSize(newPageSize);
+    }
+    // Scroll to top of results
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   if (isLoading) {
     return <LoadingSpinner message="Loading product range..." />;
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 py-4 px-2 pb-32 relative overflow-x-hidden">
-     <BreadcrumbNav items={[
+    <div >
+      <BreadcrumbNav items={[
         { href: '/', label: 'Home' },
         { href: `/category/${sourceProduct?.category || ''}`, label: sourceProduct?.category || 'Category' },
         { 
@@ -117,31 +141,45 @@ export default function RangePage({ params }: { params: { rangeId: string } }) {
           />
         </div>
         
-        {/* Results count */}
+        {/* Results count with pagination info */}
         <div className="text-xs text-gray-500 mb-3">
-          Showing {filteredCount} out of {totalCount} products
+          Showing {(currentPage - 1) * pageSize + 1}-{Math.min(currentPage * pageSize, filteredCount)} of {filteredCount} out of {totalCount} products
         </div>
         
-        {/* Product display */}
+        {/* Product display - now using paginatedProducts */}
         {filteredCount > 0 ? (
-          viewMode === 'table' ? (
-            <ProductTable 
-              products={filteredProducts}
-              specificationKeys={specificationKeys}
-              sortField={sortField}
-              sortDirection={sortDirection}
-              handleSort={handleSort}
+          <>
+            {viewMode === 'table' ? (
+              <ProductTable 
+                products={paginatedProducts}
+                specificationKeys={specificationKeys}
+                sortField={sortField}
+                sortDirection={sortDirection}
+                handleSort={handleSort}
+              />
+            ) : (
+              <ProductCards
+                products={paginatedProducts}
+                specificationKeys={specificationKeys}
+                expandedProduct={expandedProduct}
+                toggleProductExpansion={toggleProductExpansion}
+              />
+            )}
+            
+            {/* Add pagination component */}
+            <ProductPagination
+              totalItems={filteredCount}
+              pageSize={pageSize}
+              currentPage={currentPage}
+              onPageChange={handlePageChange}
             />
-          ) : (
-            <ProductCards
-              products={filteredProducts}
-              specificationKeys={specificationKeys}
-              expandedProduct={expandedProduct}
-              toggleProductExpansion={toggleProductExpansion}
-            />
-          )
+          </>
         ) : (
-          <EmptyState clearAllFilters={resetAllFilters} />
+          <EmptyResults 
+          resetFilters={resetAllFilters} 
+          message="No products match your current filters."
+          buttonText="Clear all filters"
+        />
         )}
       </div>
     </div>
