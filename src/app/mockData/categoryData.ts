@@ -69,114 +69,29 @@ export const getCategoryById = (id: string): Category | undefined => {
   return allCategories.find(category => category.id === id);
 };
 
-// Sample products only for the Industrial Tools category
-export const sampleProducts: Product[] = [
-  {
-    id: "t1",
-    title: "Industrial Grade Drill Press",
-    reference: "DRL-5500",
-    erpReference: "C600-2214069",
-    ean: "5901234123457",
-    manufacturer: "PowerMaster",
-    image: "/drill.png",
-    category: "industrial-tools",
-    subcategory: "Power Tools",
-    description: "Heavy-duty drill press with variable speed control and digital depth gauge.",
-    enrichmentLevel: "Premium",
-    availableLanguages: ["en", "fr", "de", "es"]
-  },
-  {
-    id: "t2",
-    title: "Professional Torque Wrench Set",
-    reference: "TWS-220",
-    erpReference: "B400-3365128",
-    ean: "5901234123458",
-    manufacturer: "PrecisionPro",
-    image:  "/Torque.png",
-    category: "industrial-tools",
-    subcategory: "Hand Tools",
-    description: "High-precision torque wrench set with digital display and calibration certificate.",
-    enrichmentLevel: "Premium",
-    availableLanguages: ["en", "fr", "de"]
-  },
-  {
-    id: "t3",
-    title: "Laser Distance Meter",
-    reference: "LDM-150",
-    erpReference: "M200-1124567",
-    ean: "5901234123459",
-    manufacturer: "MeasureMax",
-    image:  "/LaserDistanceMeter.png",
-    category: "industrial-tools",
-    subcategory: "Measuring Instruments",
-    description: "Advanced laser distance meter with 150m range and Bluetooth connectivity.",
-    enrichmentLevel: "Standard",
-    availableLanguages: ["en", "fr"]
-  },
-  {
-    id: "t4",
-    title: "Industrial Safety Helmet",
-    reference: "SH-2000",
-    erpReference: "S300-9987654",
-    ean: "5901234123460",
-    manufacturer: "SafeGuard",
-    image: "/helmet.png",
-    category: "industrial-tools",
-    subcategory: "Safety Equipment",
-    description: "Impact-resistant safety helmet with integrated face shield and ear protection.",
-    enrichmentLevel: "Basic",
-    availableLanguages: ["en"]
-  },
-  {
-    id: "t5",
-    title: "Professional MIG Welder",
-    reference: "WLD-3500",
-    erpReference: "W500-8876543",
-    ean: "5901234123461",
-    manufacturer: "WeldTech",
-    image: "/welder.png",
-    category: "industrial-tools",
-    subcategory: "Welding",
-    description: "Professional-grade MIG welder with digital controls and gas/gasless capability.",
-    enrichmentLevel: "LIS",
-    availableLanguages: ["en", "fr", "de", "es", "it"]
-  },
-  {
-    id: "t6",
-    title: "Cordless Impact Wrench",
-    reference: "IW-1200",
-    erpReference: "C600-7766554",
-    ean: "5901234123462",
-    manufacturer: "PowerMaster",
-    image: "/CordlessImpactWrench.png",
-    category: "industrial-tools",
-    subcategory: "Power Tools",
-    description: "Heavy-duty cordless impact wrench with 1200Nm torque and brushless motor.",
-    enrichmentLevel: "Standard",
-    availableLanguages: ["en", "fr"]
-  }
-];
+
 
 // Helper function to generate menu items from categories for the header
-export const generateNavigationMenuItems = () => {
-  return allCategories.map(category => ({
-    label: category.name.toUpperCase(),
-    id: category.id,
-    href: `/category/${category.id}`,
-    subItems: [
-      { 
-        label: `All ${category.name}`, 
-        href: `/category/${category.id}`,
-        id: "all" 
-      },
-      ...category.subcategories.map(subcategory => ({
-        label: subcategory,
-        href: `/category/${category.id}?subcategory=${encodeURIComponent(subcategory)}`,
-        id: subcategory.toLowerCase().replace(/\s+/g, '-')
-      }))
-    ]
-  }));
-};
+export const generateNavigationMenuItems = (categories: Category[] = allCategories) => {
+    return categories.map(category => ({
+      label: category.name.toUpperCase(),
+      id: category.id,
+      href: `/category/${category.id}`,
+      subItems: [
+        { 
+          label: `All ${category.name}`, 
+          href: `/category/${category.id}`,
+          id: "all" 
+        },
+        ...category.subcategories.map(subcategory => ({
+          label: subcategory,
+          href: `/category/${category.id}?subcategory=${encodeURIComponent(subcategory)}`,
+          id: subcategory.toLowerCase().replace(/\s+/g, '-')
+        }))
+      ]
+    }));
+  };
+  
 
 // Helper function to extract filter options from products
 export const getFilterOptions = (products: Product[]): FilterOptions => {
@@ -187,11 +102,4 @@ export const getFilterOptions = (products: Product[]): FilterOptions => {
     languages: [...new Set(products.flatMap(p => p.availableLanguages || []))],
     enrichmentLevels: [...new Set(products.map(p => p.enrichmentLevel || '').filter(Boolean))]
   };
-};
-
-// For backwards compatibility (if any component still uses this)
-export const categoryData = getCategoryById('industrial-tools') || {
-  name: "Industrial Tools",
-  description: "Professional tools for industrial applications",
-  subcategories: ["Power Tools", "Hand Tools", "Measuring Instruments", "Safety Equipment", "Welding"]
 };

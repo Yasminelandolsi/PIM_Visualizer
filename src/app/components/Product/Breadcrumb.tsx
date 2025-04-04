@@ -1,27 +1,33 @@
 import React from 'react';
 import { Breadcrumb as MakoBreadcrumb } from "@mako/core";
-import { productData } from '../../mockData/productData';
+import { ProductDetail } from '../../types/product.type';
 
 interface BreadcrumbNavProps {
   items?: Array<{
     href: string;
     label: string;
   }>;
+  product?: ProductDetail;
 }
 
-const BreadcrumbNav: React.FC<BreadcrumbNavProps> = ({ items }) => {
-  const defaultItems = [
+const BreadcrumbNav: React.FC<BreadcrumbNavProps> = ({ items, product }) => {
+  const defaultItems = product ? [
     {
       href: '/',
       label: 'Home'
     },
     {
-      href: '/Category',
-      label: productData.category
+      href: `/category/${product.category}`,
+      label: product.category
     },
     {
-      href: `/Product/${productData.euReference}`,
-      label: `${productData.name} (${productData.euReference})`
+      href: `/product/${product.reference}`,
+      label: `${product.name} (${product.reference})`
+    }
+  ] : [
+    {
+      href: '/',
+      label: 'Home'
     }
   ];
 

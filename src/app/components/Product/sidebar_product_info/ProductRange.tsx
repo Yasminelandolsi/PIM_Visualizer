@@ -1,42 +1,53 @@
 'use client';
 import React, { useMemo } from 'react';
 import Link from 'next/link';
-import { productData } from '../../../mockData/productData';
-
-interface RangeProduct {
-  id: string;
-  euRef: string;
-  name: string;
-  image: string;
-}
 
 interface ProductRangeProps {
   className?: string;
   currentProductId?: string;
+  productRange?: {
+    rangeId: string;
+    productCount: number;
+    products: Array<{
+      id: string;
+      euRef: string;
+      name: string;
+      image: string;
+      specifications: Record<string, string>;
+    }>;
+  };
 }
 
 const ProductRange = React.memo<ProductRangeProps>(({ 
   className = '', 
-  currentProductId = productData.euReference
+  currentProductId = '',
+  productRange
 }) => {
-  const { productRange } = productData;
-  
+  // IMPORTANT: Always define hooks at the top level, before any conditional returns
   const href = useMemo(() => {
-    const products = productRange.products as RangeProduct[];
+    if (!productRange || !productRange.products || productRange.products.length === 0) {
+      return '#';
+    }
     
+    const products = productRange.products;
     const foundProduct = products.find(p => p.euRef === currentProductId) || products[0];
     
     const params = new URLSearchParams({
-      productId: currentProductId,
-      productName: foundProduct.name,
+      productId: currentProductId || '',
+      productName: foundProduct ? foundProduct.name : 'Product',
       rangeId: productRange.rangeId
     }).toString();
     
     return `/product/range/${productRange.rangeId}?${params}`;
   }, [currentProductId, productRange]);
 
+  // If no product range data provided, don't render anything
+  if (!productRange || !productRange.products || productRange.products.length === 0) {
+    return null;
+  }
+
   return (
-    <div className={`p-4 border border-gray-200 rounded-lg p-5 bg-white shadow ${className}`}>
+    <div className={`border border-gray-200 rounded-lg p-5 bg-white shadow ${className}`}>
       <h2 className="text-xl font-semibold mb-4 text-[#041e50]">
         See all the products of the range
       </h2>

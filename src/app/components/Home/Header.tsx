@@ -1,17 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback, useMemo, memo } from "react";
 import Image from "next/image";
 import DesktopMenu from "./DesktopMenu";
 import MobileMenu from "./MobileMenu";
 import Link from "next/link";
 import { generateNavigationMenuItems } from "../../mockData/categoryData";
 
-const Header = () => {
+const Header = memo(() => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
-  // Get menu items from the category data
-  const menuItems = generateNavigationMenuItems();
+  // Memoize menu items to prevent regenerating on every render
+  const menuItems = useMemo(() => generateNavigationMenuItems(), []);
+
+  // Memoize the toggle function to maintain stable reference
+  const toggleMobileMenu = useCallback(() => {
+    setMobileMenuOpen(prev => !prev);
+  }, []);
 
   return (
     <nav className="bg-[#051e50]">
@@ -24,7 +29,7 @@ const Header = () => {
               className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:ring-2 focus:ring-white focus:outline-none focus:ring-inset"
               aria-controls="mobile-menu"
               aria-expanded={mobileMenuOpen}
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              onClick={toggleMobileMenu}
             >
               <span className="sr-only">Open main menu</span>
               {mobileMenuOpen ? (
@@ -77,10 +82,13 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu - Only render when needed */}
       {mobileMenuOpen && <MobileMenu menuItems={menuItems} />}
     </nav>
   );
-};
+});
+
+// Add display name for better debugging
+Header.displayName = 'Header';
 
 export default Header;

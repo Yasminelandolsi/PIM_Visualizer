@@ -1,6 +1,7 @@
-import { memo, useMemo } from 'react';
+import { memo, useMemo, useState } from 'react';
 import FilterSection from './shared/FilterSection';
 import RadioFilter from './shared/RadioFilter';
+import FilterSearch from './shared/FilterSearch';
 import { LANGUAGE_CODE_MAP } from './constants';
 
 interface LanguageFilterProps {
@@ -13,7 +14,7 @@ const LanguageFilter = ({
   setLanguage 
 }: LanguageFilterProps) => {
   
-  const availableLanguages = useMemo(() => 
+  const allLanguages = useMemo(() => 
     Object.entries(LANGUAGE_CODE_MAP).map(([code, name]) => ({
       code,
       name
@@ -21,15 +22,31 @@ const LanguageFilter = ({
     []
   );
   
+  // State for filtered languages
+  const [filteredLanguages, setFilteredLanguages] = useState(allLanguages);
+  
+  // Handle search input
+  const handleSearch = (searchTerm: string) => {
+    if (!searchTerm) {
+      setFilteredLanguages(allLanguages);
+      return;
+    }
+    
+    const filtered = allLanguages.filter(lang => 
+      lang.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+      lang.code.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredLanguages(filtered);
+  };
+  
   return (
     <FilterSection title="Available Language">
       <div className="space-y-2">
-        <RadioFilter
-          id="language-all"
-          name="language"
-          checked={!selectedLanguage}
-          onChange={() => setLanguage(null)}
-          label="All languages"
+        {/* Add search input */}
+        <FilterSearch 
+          placeholder="Search languages"
+          onSearch={handleSearch}
+          className="mb-2"
         />
         
         {/* Shadow indicators for scrolling */}
@@ -41,16 +58,20 @@ const LanguageFilter = ({
             className="max-h-32 overflow-y-auto pr-2 border border-gray-200 rounded p-2 bg-gray-50"
             style={{ scrollbarWidth: 'thin', scrollbarColor: '#cbd5e0 #f7fafc' }}
           >
-            {availableLanguages.map(lang => (
-              <RadioFilter 
-                key={lang.code}
-                id={`language-${lang.code}`}
-                name="language"
-                checked={selectedLanguage === lang.code}
-                onChange={() => setLanguage(lang.code)}
-                label={lang.name}
-              />
-            ))}
+            {filteredLanguages.length > 0 ? (
+              filteredLanguages.map(lang => (
+                <RadioFilter 
+                  key={lang.code}
+                  id={`language-${lang.code}`}
+                  name="language"
+                  checked={selectedLanguage === lang.code}
+                  onChange={() => setLanguage(lang.code)}
+                  label={lang.name}
+                />
+              ))
+            ) : (
+              <p className="text-sm text-gray-500 py-1">No matching languages</p>
+            )}
           </div>
         </div>
       </div>

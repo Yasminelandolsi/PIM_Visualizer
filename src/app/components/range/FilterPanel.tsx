@@ -23,7 +23,7 @@ const FilterPanel = ({
   return (
     <div className="p-3 border-b border-gray-100 bg-gray-50">
       <div className="flex justify-between items-center mb-2">
-        <h3 className="text-sm font-medium">Filter by Specifications</h3>
+        <h3 className="text-sm font-medium text-[#041e50]">Filter by Specifications</h3>
         <button 
           onClick={closePanel}
           className="text-gray-500 hover:text-gray-700"
@@ -39,7 +39,7 @@ const FilterPanel = ({
           
           return (
             <div key={specKey} className="mb-2">
-              <h4 className="text-xs font-medium mb-1">{specKey}</h4>
+              <h4 className="text-xs font-medium mb-1 text-gray-700">{specKey}</h4>
               <div className="max-h-28 overflow-y-auto pl-1 space-y-1 text-xs">
                 {values.map(value => (
                   <label key={`${specKey}-${value}`} className="flex items-center space-x-1.5 hover:bg-white p-1 rounded">
@@ -47,7 +47,7 @@ const FilterPanel = ({
                       type="checkbox"
                       checked={activeFilters[specKey]?.includes(value) || false}
                       onChange={(e) => handleFilterChange(specKey, value, e.target.checked)}
-                      className="rounded h-3 w-3 text-[#041e50]"
+                      className="rounded h-3 w-3 text-[#041e50] accent-[#041e50]"
                     />
                     <span>{value}</span>
                   </label>

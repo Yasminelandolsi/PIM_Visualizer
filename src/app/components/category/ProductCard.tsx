@@ -2,6 +2,7 @@ import React, { memo } from 'react';
 import { Product } from '../../types/category.types';
 import { Button } from "@mako/core";
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 interface ProductCardProps {
   product: Product;
@@ -11,8 +12,13 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ product, viewMode, onViewDetails }) => {
   const { title, reference, manufacturer, image, ean, erpReference } = product;
-  
+  const router = useRouter();
+
   const handleViewDetails = () => {
+    // Navigate using product reference
+    router.push(`/product/${encodeURIComponent(product.reference)}`);
+    
+    // Also call the callback if provided (for other side effects)
     if (onViewDetails) onViewDetails(product);
   };
   
@@ -52,16 +58,15 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, viewMode, onViewDeta
             <p className="mb-1">EAN: {ean || 'N/A'}</p>
             <p className="mb-1">ERP: {erpReference || 'N/A'}</p>
           </div>
-          
           <Button
-            shape="round"
-            size="small"
-            variant="primary"
-            onClick={handleViewDetails}
-            className="bg-[#041e50] text-white px-3 py-1 text-xs rounded hover:bg-[#0a2a6a] transition-colors w-full"
-          >
-            View Details
-          </Button>
+    shape="round"
+    size="small"
+    variant="primary"
+    onClick={handleViewDetails}
+    className="bg-[#041e50] text-white px-3 py-1 text-xs rounded hover:bg-[#0a2a6a] transition-colors w-full"
+  >
+    View Details
+  </Button>
         </div>
       </div>
     );
